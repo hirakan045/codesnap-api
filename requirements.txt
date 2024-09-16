@@ -1,0 +1,16 @@
+# Flaskフレームワーク関連
+Flask==3.0.3                      # Flaskフレームワーク本体 
+Flask-WTF==1.2.1                  # FlaskとWTFormsを統合してフォームバリデーションを簡素化
+Flask-SQLAlchemy==3.1.1           # FlaskとSQLAlchemyを統合してデータベース操作を容易に
+Flask-Migrate==4.0.7              # データベースマイグレーションのサポート
+Flask-Login==0.6.3                # ユーザー認証機能の提供
+Flask-JWT-Extended==4.6.0         # JWTを使用して認証機能を追加
+Flask-Cors==5.0.0                 # CORS対策
+python-dotenv==1.0.1              # 環境変数の取り扱い
+
+# フォームとバリデーション関連
+WTForms==3.1.2                    # フォームのバリデーションを提供
+email-validator==2.2.0            # メールアドレスのバリデーション
+
+# データベース関連
+SQLAlchemy==2.0.34                # データベース操作のためのORMライブラリ
