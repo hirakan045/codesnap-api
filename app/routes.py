@@ -2,24 +2,27 @@ from app import db
 from app.models import Snippet, User
 from flask import Blueprint, jsonify, request
 
-# # Blueprintの作成
-# auth_bp = Blueprint('auth', __name__)
+# Blueprintの作成
+auth_bp = Blueprint('auth', __name__)
 
 
-# # 新規ユーザー登録
-# @auth_bp.route('/api/register', methods=['POST'])
-# def register():
-#     data = request.get_json()
-#     username = data.get('username')
-#     password = data.get('password')
+# 新規ユーザー登録
+@auth_bp.route('/api/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
 
-#     # ユーザーテーブルに存在するかチェック
+    user = User(username=username, password=password)
 
-#     # ユーザー登録
-#     user = User(username=username, password=password)
-#     db.session.add(user)
-#     db.session.commit()
-#     return jsonify({"message": "ユーザー登録に成功しました。"}), 200
+    # ユーザー登録
+    try:
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({"message": "ユーザー登録に成功しました。"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 
 # # ログイン認証
@@ -35,9 +38,7 @@ from flask import Blueprint, jsonify, request
 #     else:
 #         return jsonify({"message": "ログインに失敗しました"}), 401
 
-
 # snippets_bp = Blueprint('snippets', __name__, url_prefix='/api')
-
 
 # @snippets_bp.route('/snippets', methods=['GET'])
 # def get_snippets():
