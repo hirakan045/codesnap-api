@@ -1,0 +1,4 @@
+.flaskenv
+*__pycache__
+*.__mypy_cache__
+openapi.yaml
