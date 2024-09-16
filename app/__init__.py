@@ -11,16 +11,20 @@ migrate = Migrate()
 
 
 def create_app():
+    from .routes import auth_bp
 
     # Flaskアプリの作成
     app = Flask(__name__)
     CORS(app)
 
-    # アプリケーションに設定を読み込む
+    # アプリケーションの設定
     app.config.from_object(Config)
 
-    # データベースを初期化
+    # データベースの初期化
     db.init_app(app)
     migrate.init_app(app, db)
+
+    # BluePrintの登録
+    app.register_blueprint(auth_bp)
 
     return app

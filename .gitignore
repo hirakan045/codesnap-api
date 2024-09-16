@@ -1,4 +1,6 @@
 .flaskenv
 *__pycache__
 *.__mypy_cache__
+*.db
 openapi.yaml
+migrations

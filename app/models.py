@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String, Text)
+from sqlalchemy import (Boolean, Column, DateTime, ForeignKey, Integer, String,
+                        Text)
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 # 日本時間のタイムゾーン（UTC+9）
@@ -9,7 +10,8 @@ japan_tz = timezone(timedelta(hours=9))
 
 class Base(DeclarativeBase):
     created_at = Column(DateTime, default=datetime.now(japan_tz))
-    updated_at = Column(DateTime, default=datetime.now(japan_tz))
+    updated_at = Column(DateTime, default=datetime.now(
+        japan_tz), onupdate=lambda: datetime.now(japan_tz))
 
 
 class User(Base):
@@ -17,10 +19,9 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False, unique=True)
-    email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
 
-    # リレーション: ユーザーとスニペットの多対多関係を定義
+    # リレーション: ユーザーとスニペットの中間テーブル
     snippets = relationship('UserSnippet', back_populates='user')
 
 
@@ -33,11 +34,12 @@ class Snippet(Base):
     code = Column(Text, nullable=False)
     language = Column(String)
 
-    # Userとのリレーション
-    user = relationship('UserSnippet', back_populates='snippet')
-
+    # リレーション: スニペットとユーザーの中間テーブル
+    users = relationship('UserSnippet', back_populates='snippet')
 
 # 中間テーブル（user_snippets）
+
+
 class UserSnippet(Base):
     __tablename__ = 'user_snippets'
     id = Column(Integer, primary_key=True)
